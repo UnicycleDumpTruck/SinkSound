@@ -15,8 +15,6 @@
 // INSTANTIATE A Bounce OBJECT
 Bounce bounce = Bounce();
 
-// SET A VARIABLE TO STORE THE LED STATE
-int ledState = LOW;
 
 // ███████╗███████╗████████╗██╗   ██╗██████╗
 // ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
@@ -51,7 +49,7 @@ void setup()
 
   // LED SETUP
   pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, ledState);
+  digitalWrite(LED_PIN, LOW);
 
   Watchdog.enable(4000);
   Serial.println("Setup Complete");
@@ -76,14 +74,16 @@ void loop()
     // GET THE STATE
     int deboucedInput = bounce.read();
     // IF THE CHANGED VALUE IS LOW
-    if (deboucedInput == LOW)
+    if (deboucedInput == LOW) // Button pressed...
     {
-      ledState = !ledState;            // SET ledState TO THE OPPOSITE OF ledState
-      digitalWrite(LED_PIN, ledState); // WRITE THE NEW ledState
+      digitalWrite(LED_PIN, HIGH);
       startAudio();
-      delay(1000);
+    }
+    else // Button released...
+    {
+      digitalWrite(LED_PIN, LOW);
       stopAudio();
-      sendGoEvent(1); // Does not work inside VS1053 audio startPlayingFile!
+      sendGoEvent(1);
     }
   }
 
