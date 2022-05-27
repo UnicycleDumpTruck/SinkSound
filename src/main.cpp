@@ -26,10 +26,10 @@ Bounce bounce = Bounce();
 void setup()
 {
   Serial.begin(9600);
-  while (!Serial)
-  {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
+  // while (!Serial)
+  // {
+  //   ; // wait for serial port to connect. Needed for native USB port only
+  // }
   Serial.printf("\nProject version v%s, built %s\n", VERSION, BUILD_TIMESTAMP);
   Serial.println("Setup function commencing...");
   vsAudioSetup();
@@ -49,7 +49,7 @@ void setup()
 
   // LED SETUP
   pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, LOW);
+  digitalWrite(LED_PIN, HIGH);
 
   Watchdog.enable(4000);
   Serial.println("Setup Complete");
@@ -76,12 +76,12 @@ void loop()
     // IF THE CHANGED VALUE IS LOW
     if (deboucedInput == LOW) // Button pressed...
     {
-      digitalWrite(LED_PIN, HIGH);
+      digitalWrite(LED_PIN, LOW);
       startAudio();
     }
     else // Button released...
     {
-      digitalWrite(LED_PIN, LOW);
+      digitalWrite(LED_PIN, HIGH);
       stopAudio();
       sendGoEvent(1);
     }

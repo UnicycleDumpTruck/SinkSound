@@ -8,7 +8,9 @@ void vsAudioSetup()
 {
     pinMode(CARDCS, OUTPUT);
     pinMode(SHIELD_CS, OUTPUT);
+    pinMode(MUTE, OUTPUT);
 
+    digitalWrite(MUTE, LOW);
     digitalWrite(SHIELD_CS, LOW);
     delay(50);
 
@@ -40,13 +42,15 @@ void vsAudioSetup()
 void startAudio()
 {
     Serial.println(F("Playing Sound"));
+    digitalWrite(MUTE, HIGH);
     digitalWrite(SHIELD_CS, LOW);
-    musicPlayer.startPlayingFile("/robot.mp3");
+    musicPlayer.startPlayingFile("/water.mp3");
     digitalWrite(SHIELD_CS, HIGH);
 }
 
 void stopAudio()
 {
+    digitalWrite(MUTE, LOW);
     digitalWrite(SHIELD_CS, LOW);
     musicPlayer.stopPlaying();
     digitalWrite(SHIELD_CS, HIGH);
