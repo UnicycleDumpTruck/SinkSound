@@ -29,20 +29,23 @@ void sendGoEvent(uint8_t s)
     eventData.counter++;
     Serial.print("About to send transmission number: ");
     Serial.println(eventData.counter);
-    digitalWrite(RFM69_CS, LOW);
-    delay(10);
-    bool t_result = rf69.send((uint8_t *)&eventData, sizeof(eventData));
-    rf69.waitPacketSent();
-    if (t_result)
+    if (eventData.counter % 50 == 0) // Send every 50 events
     {
-        Serial.println("Send true");
+        digitalWrite(RFM69_CS, LOW);
+        delay(10);
+        bool t_result = rf69.send((uint8_t *)&eventData, sizeof(eventData));
+        rf69.waitPacketSent();
+        if (t_result)
+        {
+            Serial.println("Send true");
+        }
+        else
+        {
+            Serial.println("Send false");
+        }
+        // delay(50);
+        digitalWrite(RFM69_CS, HIGH);
     }
-    else
-    {
-        Serial.println("Send false");
-    }
-    // delay(50);
-    digitalWrite(RFM69_CS, HIGH);
 }
 
 void radioSetup()
@@ -52,7 +55,7 @@ void radioSetup()
     pinMode(RFM69_RST, OUTPUT);
 
     digitalWrite(RFM69_CS, LOW);
-    //digitalWrite(RFM69_EN, HIGH);
+    // digitalWrite(RFM69_EN, HIGH);
     digitalWrite(RFM69_RST, LOW);
     delay(50);
     // manual reset
@@ -65,7 +68,7 @@ void radioSetup()
     {
         delay(2000);
         Serial.println("RFM69 radio init failed");
-        //while (1);
+        // while (1);
     }
     Serial.println("RFM69 radio init OK!");
     // Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM (for low power module)
