@@ -49,6 +49,8 @@ void setup()
   // LED SETUP
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_PIN, LOW);
 
   Watchdog.enable(4000);
   Serial.println("Setup Complete");
@@ -77,12 +79,15 @@ void loop()
     {
       digitalWrite(LED_PIN, LOW);
       startAudio();
+      delay(100);
+      // Serial.println("Button Pressed");
     }
     else // Button released...
     {
       digitalWrite(LED_PIN, HIGH);
       stopAudio();
       sendGoEvent(1);
+      // Serial.println("Button Released and event sent");
     }
   }
 

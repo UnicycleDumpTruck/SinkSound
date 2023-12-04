@@ -27,10 +27,11 @@ void sendGoEvent(uint8_t s)
     eventData.cubeID = MY_ADDRESS;
     eventData.batteryVoltage = 0;
     eventData.counter++;
-    Serial.print("About to send transmission number: ");
+    Serial.print("Event tallied: ");
     Serial.println(eventData.counter);
     if (eventData.counter % 50 == 0) // Send every 50 events
     {
+        Serial.println("Sending transmission for multiple of 50");
         digitalWrite(RFM69_CS, LOW);
         delay(10);
         bool t_result = rf69.send((uint8_t *)&eventData, sizeof(eventData));
